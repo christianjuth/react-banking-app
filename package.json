@@ -10,16 +10,25 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
     "@t3-oss/env-nextjs": "^0.10.1",
-    "geist": "^1.3.0",
+    "bcrypt": "^5.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "knex": "^3.1.0",
-    "next": "^14.2.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "lucide-react": "^0.441.0",
+    "next": "15.0.0-canary.148",
+    "react": "19.0.0-rc-d1afcb43-20240903",
+    "react-dom": "19.0.0-rc-d1afcb43-20240903",
+    "server-only": "^0.0.1",
     "sqlite3": "^5.1.7",
-    "zod": "^3.23.3"
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.3",
+    "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
@@ -36,6 +45,5 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.37.0"
-  },
-  "packageManager": "npm@10.5.0"
+  }
 }

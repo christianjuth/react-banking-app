@@ -2,7 +2,9 @@ import knex from 'knex'
 
 export const db = knex({
   client: 'sqlite3',
+  dialect: 'sqlite3',
   connection: {
-    filename: './mydb.sqlite',
+    filename: './db.sqlite3',
   },
+  useNullAsDefault: true,
 })
