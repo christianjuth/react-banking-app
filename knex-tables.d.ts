@@ -25,8 +25,26 @@ declare module 'knex/types/tables' {
     permission: string;
   }
 
+  interface Account extends TimeStamps {
+    id: number;
+    user_id: number;
+    closed: boolean;
+    type: 'checkings' | 'savings';
+  }
+
+  interface Transaction extends TimeStamps {
+    id: number;
+    amount_cents: number;
+    type: 'deposit' | 'withdrawal' | 'transfer';
+    from_account_id: number | null;
+    to_account_id: number | null;
+  }
+
   interface Tables {
     users: User;
     sessions: Session;
+    permissions: Permission;
+    accounts: Account;
+    transactions: Transaction;
   }
 }

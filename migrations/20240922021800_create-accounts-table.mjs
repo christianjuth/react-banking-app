@@ -5,14 +5,15 @@
  */
 export const up = async (knex) => {
 
-  return knex.schema.createTable('sessions', table => {
-    table.string('session_id', 64).primary();
+  return knex.schema.createTable('accounts', table => {
+    table.increments('id').primary();
     table.timestamps();
     table.integer('user_id').unsigned().notNullable();
+    table.boolean('closed').notNullable().defaultTo(false);
+    table.enu('type', ['checkings', 'savings']).notNullable();
 
-    // Constraints
     table.foreign('user_id').references('users.id');
-  })
+  }) 
   
 };
 
@@ -22,6 +23,6 @@ export const up = async (knex) => {
  */
 export const down = async (knex) => {
 
-  return knex.schema.dropTable('sessions');
+  return knex.schema.dropTable('accounts');
   
 };

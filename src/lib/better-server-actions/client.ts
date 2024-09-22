@@ -9,7 +9,6 @@ type ExtendState<State> = State & {
   formData?: Record<string, string[]> 
 }
 
-
 /**
  * Next.js triggers redirects by throwing a special redirect error
  * We could import the function to check if this is a Next.js redirect,
