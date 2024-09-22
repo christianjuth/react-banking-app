@@ -9,7 +9,7 @@ const config = {
 
   serverExternalPackages: [
     'knex',
-  ]
+  ],
 
 };
 

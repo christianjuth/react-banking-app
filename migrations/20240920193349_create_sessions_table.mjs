@@ -5,16 +5,14 @@
  */
 export const up = async (knex) => {
 
-  return knex.raw(`
-    CREATE TABLE sessions (
-      id INTEGER PRIMARY KEY,
-      created_at INTEGER NOT NULL,
-      updated_at INTEGER NOT NULL,
-      last_active INTEGER NOT NULL,
-      user_id INTEGER NOT NULL,
-      FOREIGN KEY (user_id) REFERENCES users(id)
-    );
-  `)
+  return knex.schema.createTable('sessions', table => {
+    table.string('session_id', 64).primary();
+    table.timestamps();
+    table.integer('user_id').notNullable();
+
+    // Constraints
+    table.foreign('user_id').references('users.id');
+  })
   
 };
 
@@ -24,8 +22,6 @@ export const up = async (knex) => {
  */
 export const down = async (knex) => {
 
-  return knex.raw(`
-    DROP TABLES sessions;
-  `)
+  return knex.schema.dropTable('sessions');
   
 };

@@ -43,7 +43,7 @@ export const AuthForm = () => {
           </FormItem>
           <Button type="submit">Submit</Button>
 
-          <div>Don't have an account? <Link href={routes.signup}>Sign up</Link></div>
+          <div>Don&apos;t have an account? <Link href={routes.signup}>Sign up</Link></div>
         </form>
       </div>
 

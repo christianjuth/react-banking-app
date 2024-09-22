@@ -5,17 +5,16 @@
  */
 export const up = async (knex) => {
 
-  return knex.raw(`
-    CREATE TABLE permissions (
-      id INTEGER PRIMARY KEY,
-      created_at INTEGER NOT NULL,
-      updated_at INTEGER NOT NULL,
-      user_id INTEGER NOT NULL,
-      permission VARCHAR(30) NOT NULL,
-      UNIQUE(user_id, permission),
-      FOREIGN KEY (user_id) REFERENCES users(id)
-    );
-  `)
+  return knex.schema.createTable('permissions', table => {
+    table.increments('id').primary();
+    table.integer('user_id').unsigned().notNullable();
+    table.timestamps();
+    table.string('permission', 30).notNullable();
+
+    // Constraints
+    table.unique(['user_id', 'permission']);
+    table.foreign('user_id').references('users.id');
+  });
   
 };
 
@@ -25,8 +24,6 @@ export const up = async (knex) => {
  */
 export const down = async (knex) => {
 
-  return knex.raw(`
-    DROP TABLE permissions;
-  `)
+  return knex.schema.dropTable('permissions');
   
 };

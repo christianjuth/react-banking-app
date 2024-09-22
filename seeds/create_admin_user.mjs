@@ -9,44 +9,39 @@ const SALT_ROUNDS = 10;
 export const seed = async (knex) => {
   return knex.transaction(async trx => {
     try {
-      const hash = await bcrypt.hash("password", SALT_ROUNDS)
+      const hash = await bcrypt.hash("admin", SALT_ROUNDS)
 
-      const createdAt = Date.now();
-      
-      await trx.raw(`
-        INSERT INTO users (created_at, updated_at, email, password_hash)
-        VALUES (?, ?, 'admin@example.com', ?);
-      `, [
-        createdAt,
-        createdAt,
-        hash,
-      ]);
+      const [userId] = await knex('users')
+        .insert({
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now(),
+          email: 'admin@example.com',
+          password_hash: hash,
+          first_name: 'Admin',
+          last_name: 'Admin',
+        }, 'id')
+        .transacting(trx);
 
-      const [{ userId }] = await trx.raw(`
-        SELECT LAST_INSERT_ROWID() AS userId;
-      `);
+      await knex('permissions')
+        .insert({
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now(),
+          user_id: userId,
+          permission: 'admin.read'
+        })
+        .transacting(trx)
 
-      await trx.raw(`
-        INSERT INTO permissions (created_at, updated_at, user_id, permission)
-        VALUES (':createdAt:', ':updatedAt:', ':userId:', 'admin.read');
-      `, {
-        userId, 
-        createdAt,
-        updatedAt: createdAt,
-      })
-
-      await trx.raw(`
-        INSERT INTO permissions (created_at, updated_at, user_id, permission)
-        VALUES (':createdAt:', ':updatedAt:', ':userId:', 'admin.write');
-      `, {
-        userId, 
-        createdAt,
-        updatedAt: createdAt,
-      })
+      await knex('permissions')
+        .insert({
+          created_at: knex.fn.now(),
+          updated_at: knex.fn.now(),
+          user_id: userId,
+          permission: 'admin.write'
+        })
+        .transacting(trx)
 
     } catch (err) {
       console.error(err);
-      trx.rollback();
     }
 
   })

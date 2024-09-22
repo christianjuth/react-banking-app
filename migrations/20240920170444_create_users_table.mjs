@@ -5,15 +5,14 @@
  */
 export const up = async (knex) => {
 
-  return knex.raw(`
-    CREATE TABLE users (
-      id INTEGER PRIMARY KEY,
-      created_at INTEGER NOT NULL,
-      updated_at INTEGER NOT NULL,
-      email VARCHAR(30) UNIQUE NOT NULL,
-      password_hash VARCHAR(60) NOT NULL
-    );
-  `)
+  return knex.schema.createTable('users', table => {
+    table.increments('id').primary();
+    table.timestamps();
+    table.string('email', 30).unique().notNullable();
+    table.string('password_hash', 60).notNullable();
+    table.string('first_name', 20).notNullable();
+    table.string('last_name', 20).notNullable();
+  })
   
 };
 
@@ -23,8 +22,6 @@ export const up = async (knex) => {
  */
 export const down = async (knex) => {
 
-  return knex.raw(`
-    DROP TABLE users;
-  `)
+  return knex.schema.dropTable('users')
   
 };
